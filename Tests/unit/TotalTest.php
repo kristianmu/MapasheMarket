@@ -33,33 +33,20 @@ class TotalTest extends TestCase
     public function price_increases_properly()
     {
         $total = new Total();
-        $this->assertEquals(100, $total->addFruit('apple'));
-        $this->assertEquals(175, $total->addFruit('cherry'));
-        $this->assertEquals(230, $total->addFruit('cherry'));
+        $this->assertEquals(230, $total->addFruit('apple,cherry,cherry'));
     }
 
     /** @test */
     public function adding_two_cherries_will_apply_discount()
     {
         $total = new Total();
-        $this->assertEquals(75, $total->addFruit('cherry'));
-        $this->assertEquals(130, $total->addFruit('cherry'));
-    }
-
-    /** @test */
-    public function adding_four_cherries_will_apply_tow_discounts()
-    {
-        $total = new Total();
-        $this->assertEquals(75, $total->addFruit('cherry'));
-        $this->assertEquals(130, $total->addFruit('cherry'));
-        $this->assertEquals(205, $total->addFruit('cherry'));
-        $this->assertEquals(260, $total->addFruit('cherry'));
+        $this->assertEquals(130, $total->addFruit('cherry,cherry'));
     }
 
     /** @test */
     public function cherry_has_discount()
     {
-        $this->assertTrue(Pricing::getFruitDiscount('cherry') > 0);
+        $this->assertTrue(Pricing::getFruitDiscount('cherry', 2) > 0);
     }
 
     /** @test */
@@ -74,5 +61,42 @@ class TotalTest extends TestCase
     {
         $total = new Total();
         $this->assertEquals(280, $total->addFruit('cherry,cherry,banana,banana'));
+    }
+
+    /** @test */
+    public function adding_four_cherries_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(260, $total->addFruit('cherry,cherry,cherry,cherry'));
+    }
+
+    /** @test */
+    public function adding_two_apfel_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(50, $total->addFruit('apfel,apfel'));
+    }
+
+    /** @test */
+    public function adding_three_manzana_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(200, $total->addFruit('manzana,manzana,manzana'));
+    }
+
+    /** @test */
+    public function adding_four_apple_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(250, $total->addFruit('apfel,manzana,manzana,apfel'));
+    }
+
+    /** @test */
+    public function adding_five_fruits_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(250, $total->addFruit('apfel,manzana,manzana,apfel'));
+        $this->assertEquals(200, $total->addFruit('banana'));
+        $this->assertEquals(250, $total->addFruit('apfel,manzana,manzana,apfel,apfel'));
     }
 }

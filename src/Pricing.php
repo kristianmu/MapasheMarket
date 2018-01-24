@@ -15,8 +15,21 @@ class Pricing
     ];
 
     private static $discounts = [
-        'cherry' => 20,
-        'banana' => 150, // Its free
+        'apple' => [
+            4 => 20
+        ],
+        'cherry' => [
+            2 => 20
+        ],
+        'banana' => [
+            2 => 150 // Its free
+        ],
+        'apfel' => [
+            2 => 150
+        ],
+        'manzana' => [
+            3 => 100
+        ],
     ];
 
     private static $localisation = [
@@ -33,14 +46,14 @@ class Pricing
         return isset(self::$prices[$fruitName]) ? self::$prices[$fruitName] : 0;
     }
 
-    public static function getFruitDiscount($fruitName): int
+    public static function getFruitDiscount($fruitName, $fruitNumber): int
     {
-        return isset(self::$discounts[$fruitName]) ? self::$discounts[$fruitName] : 0;
+        return isset(self::$discounts[$fruitName][$fruitNumber]) ? self::$discounts[$fruitName][$fruitNumber] : 0;
     }
 
-    public static function fruitHasDiscount($fruitName): bool
+    public static function fruitHasDiscount($fruitName, $fruitNumber): bool
     {
-        return isset(self::$discounts[$fruitName]);
+        return isset(self::$discounts[$fruitName][$fruitNumber]);
     }
 
     public static function isCherry($fruitName): bool

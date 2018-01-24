@@ -11,17 +11,17 @@ class Total
     /** @var int */
     private $total;
 
-    /** @var int */
-    private $cherriesNumber;
+    /** @var array */
+    private $fruitNumber;
 
     /** @var int */
-    private $bananaNumber;
+    private $totalFruits;
 
     public function __construct()
     {
         $this->total = 0;
-        $this->cherriesNumber = 0;
-        $this->bananaNumber = 0;
+        $this->totalFruits = 0;
+        $this->fruitNumber = [];
     }
 
     public function getTotal(): int
@@ -32,25 +32,26 @@ class Total
     public function addFruit($fruitNames): int
     {
         foreach (explode(',', $fruitNames) as $fruitName) {
-            $fruitPrice = Pricing::getFruitPrice($fruitName);
+            $this->totalFruits++;
 
-            if (Pricing::isCherry($fruitName)) {
-                $this->cherriesNumber++;
-
-                if ($this->cherriesNumber % 2 === 0) {
-                    $fruitPrice -= Pricing::getFruitDiscount($fruitName);
-                }
+            if(!isset($this->fruitNumber[$fruitName])){
+                $this->fruitNumber[$fruitName] = 1;
+            } else{
+                $this->fruitNumber[$fruitName]++;
             }
 
-            if (Pricing::isBanana($fruitName)) {
-                $this->bananaNumber++;
+            $fruitPrice = Pricing::getFruitPrice($fruitName);
 
-                if ($this->bananaNumber % 2 === 0) {
-                    $fruitPrice -= Pricing::getFruitDiscount($fruitName);
-                }
+            if (Pricing::fruitHasDiscount($fruitName, $this->fruitNumber[$fruitName])) {
+                $fruitPrice -= Pricing::getFruitDiscount($fruitName, $this->fruitNumber[$fruitName]);
+                unset($this->fruitNumber[$fruitName]);
             }
 
             $this->total += $fruitPrice;
+
+            if($this->totalFruits % 5 === 0){
+                $this->total -= 200;
+            }
         }
 
         return $this->total;
