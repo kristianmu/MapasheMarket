@@ -11,7 +11,7 @@ class ProcessCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('mapashe:process');
+        $this->setName('mapashe:shester');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -19,10 +19,11 @@ class ProcessCommand extends Command
         $total = new Total();
         do {
             $helper = $this->getHelper('question');
-            $question = new Question('Input: ', 'AcmeDemoBundle');
+            $question = new Question('Fruit Name or names in CSV: ');
 
-            $e = $helper->ask($input, $output, $question);
-            $output->writeln("\t".$total->addFruit($e));
+            $inputValue = $helper->ask($input, $output, $question);
+
+            $output->writeln("\t".$total->addFruit($inputValue));
 
         } while(true);
     }

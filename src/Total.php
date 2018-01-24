@@ -20,19 +20,26 @@ class Total
         $this->cherriesNumber = 0;
     }
 
-    public function addFruit($fruitName): int
+    public function getTotal(): int
     {
-        $fruitPrice = Pricing::getFruitPrice($fruitName);
+        return $this->total;
+    }
 
-        if ($this->isCherry($fruitName)) {
-            $this->cherriesNumber++;
+    public function addFruit($fruitNames): int
+    {
+        foreach (explode(',',$fruitNames) as $fruitName) {
+            $fruitPrice = Pricing::getFruitPrice($fruitName);
 
-            if ($this->cherriesNumber % 2 === 0) {
-                $fruitPrice-= Pricing::getFruitDiscount($fruitName);
+            if ($this->isCherry($fruitName)) {
+                $this->cherriesNumber++;
+
+                if ($this->cherriesNumber % 2 === 0) {
+                    $fruitPrice-= Pricing::getFruitDiscount($fruitName);
+                }
             }
-        }
 
-        $this->total += $fruitPrice;
+            $this->total += $fruitPrice;
+        }
 
         return $this->total;
     }

@@ -23,6 +23,13 @@ class TotalTest extends TestCase
     }
 
     /** @test */
+    public function known_fruits_csv_return_price()
+    {
+        $total = new Total();
+        $this->assertEquals(325, $total->addFruit('banana,apple,cherry'));
+    }
+
+    /** @test */
     public function price_increases_properly()
     {
         $total = new Total();
