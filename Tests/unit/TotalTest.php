@@ -61,4 +61,18 @@ class TotalTest extends TestCase
     {
         $this->assertTrue(Pricing::getFruitDiscount('cherry') > 0);
     }
+
+    /** @test */
+    public function localisation_for_apple_returns_correct_price()
+    {
+        $this->assertEquals(Pricing::getFruitPrice('apple'), Pricing::getFruitPrice('manzana'));
+        $this->assertEquals(Pricing::getFruitPrice('apple'), Pricing::getFruitPrice('apfel'));
+    }
+
+    /** @test */
+    public function adding_two_bananas_will_apply_tow_discounts()
+    {
+        $total = new Total();
+        $this->assertEquals(280, $total->addFruit('cherry,cherry,banana,banana'));
+    }
 }
