@@ -55,15 +55,5 @@ class Pricing
     {
         return isset(self::$discounts[$fruitName][$fruitNumber]);
     }
-
-    public static function isCherry($fruitName): bool
-    {
-        return $fruitName === 'cherry';
-    }
-
-    public static function isBanana($fruitName): bool
-    {
-        return $fruitName === 'banana';
-    }
 }
 
