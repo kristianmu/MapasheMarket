@@ -49,11 +49,16 @@ class Total
 
             $this->total += $fruitPrice;
 
-            if($this->totalFruits % 5 === 0){
-                $this->total -= 200;
-            }
+            $this->applyGlobalDiscounts();
         }
 
         return $this->total;
+    }
+
+    protected function applyGlobalDiscounts(): void
+    {
+        if ($this->totalFruits % 5 === 0) {
+            $this->total -= 200;
+        }
     }
 }
